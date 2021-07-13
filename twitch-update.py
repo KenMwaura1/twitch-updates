@@ -15,12 +15,12 @@ app = at.Application
 print(app.fetch_application_data())
 # res = sms.send(message="test", recipients=["+254773428397"])
 # print(res)
-print(sms.fetch_messages(int("ATXid_50c822e96bd467716bf56c543b8c53dc")))
+print(sms.fetch_messages())
 
 endpoint = "https://api.twitch.tv/helix/streams?"
 headers = {"Client-ID": f"{client_id}",
            "Authorization": f"Bearer {access_token}"}
-params = {"user_login": ["Solary", "averagejonas"]}
+params = {"user_login": ["Solary", "averagejonas", "shivfps"]}
 response = requests.get(endpoint, params=params, headers=headers)
 json_response = response.json()
 print(json_response)
@@ -28,3 +28,22 @@ streams = json_response.get('data', [])
 is_active = lambda stream: stream.get('type') == 'live'
 streams_active = filter(is_active, streams)
 at_least_one_stream_active = any(streams_active)
+print(at_least_one_stream_active)
+if at_least_one_stream_active:
+    stream_id = []
+    viewer_count = []
+    user_name = []
+    start = []
+    title = []
+    live_n = Falsea
+    for s in streams:
+        print(s['id'])
+        stream_id.append(s['id'])
+        viewer_count.extend([s['user_name'], s['viewer_count'], s['started_at'], s['game_name']])
+        user_name.append(s['user_name'])
+        title.append(s['game_name'])
+
+    print(viewer_count)
+    print(stream_id)
+    print(user_name)
+    print(title)
