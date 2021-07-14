@@ -35,7 +35,7 @@ if at_least_one_stream_active:
     user_name = []
     start = []
     title = []
-    live_n = Falsea
+    live_n = False
     for s in streams:
         print(s['id'])
         stream_id.append(s['id'])
