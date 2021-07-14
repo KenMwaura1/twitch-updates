@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 import datetime as dt
 import os
+
 file_path = os.path.dirname(os.path.abspath(__file__))
 
 Base = declarative_base()
@@ -15,6 +16,7 @@ Base = declarative_base()
     Column("message_id", String, ForeignKey("Message.message_id"))
 )
 """
+
 
 class Stream(Base):
     __tablename__ = "stream"
@@ -59,7 +61,6 @@ def add_stream(session, stream_id, user_name, viewer_count, user_id, game_name, 
 def main():
     # Connect to the database using SQLAlchemy
     db = os.path.join(file_path, "stream_data.db")
-    # engine = create_engine(f"postgresql+psycopg2://ken:ken1738@localhost:5432/stream_data")
     engine = create_engine(f"sqlite:///{db}", echo=True)
     # connection = engine.connect()
     Base.metadata.create_all(engine, checkfirst=True)
@@ -75,8 +76,6 @@ def main():
     """session.add(Stream(stream_id=21, user_name="zoo", viewer_count=3400, user_id=12, game_name="Apex Legends",
                        title="Test", started_at=dt.datetime.now()))"""
 
-    add_stream(session, stream_id=25, user_name="zoo", viewer_count=2400, user_id=12, game_name="Fortnite",
-               title="Test", started_at=dt.datetime.now())
 
 
     return session
@@ -84,3 +83,5 @@ def main():
 
 main()
 
+add_stream(main(), stream_id=5, user_name="zoo", viewer_count=2400, user_id=12, game_name="Fortnite",
+           title="Test", started_at=dt.datetime.now())
