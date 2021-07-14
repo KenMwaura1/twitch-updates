@@ -41,10 +41,10 @@ class Message(Base):
 def add_stream(session, stream_id, user_name, viewer_count, user_id, game_name, title, started_at):
     # Check if stream exists
     stream = session.query(Stream).filter(Stream.stream_id == stream_id).one_or_none()
-
+    s = session.query(Stream).all()
     if stream is not None:
         return "Stream exists"
-    # stream = (session.query(Stream).filter(Stream.stream_id) == stream_id).one_or_none()
+
     # create a new stream if it doesn't exist
     if stream is None:
         stream = Stream(stream_id=stream_id, user_name=user_name, viewer_count=viewer_count,
