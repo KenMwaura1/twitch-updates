@@ -4,7 +4,7 @@ import africastalking as at
 from dotenv import load_dotenv
 from datetime import datetime
 
-from db_models import main, add_stream, Stream, Message
+from db_models import main, add_stream, check_stream, Stream, Message
 
 load_dotenv()
 client_id = os.getenv('Client-ID')
@@ -50,7 +50,14 @@ if at_least_one_stream_active:
         add_stream(main(), s['id'], s['user_name'], s['viewer_count'], s['user_id'],
                    s['game_name'], s['title'], converted_time, )
 
-"""    print(viewer_count)
+
+        def stream_notification():
+            print(check_stream(main(), s['id']))
+
+
+        stream_notification()
+
+""" print(viewer_count)
     print(stream_id)
     print(user_name)
     print(title)"""
@@ -59,7 +66,7 @@ if at_least_one_stream_active:
 def stream_query(session):
     s1 = session.query(Stream).all()
     for x in s1:
-        print(x.stream_id)
+        print(x.stream_id, x.user_name)
 
 
 stream_query(main())

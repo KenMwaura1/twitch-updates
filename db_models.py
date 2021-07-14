@@ -58,10 +58,27 @@ def add_stream(session, stream_id, user_name, viewer_count, user_id, game_name, 
     session.commit()
 
 
+def add_message(session, message_id, message, time_created, stream_id):
+    live_message = Message(message_id=message_id, message=message, time_created=time_created, stream_id=stream_id)
+    try:
+        session.add(live_message)
+    except Exception as e:
+        session.rollback()
+        print(f"Error as {e}")
+    session.commit()
+
+
+def check_stream(session, stream_id):
+    stream = session.query(Stream).filter(Stream.stream_id == stream_id).one_or_none()
+    if stream is None:
+        print(" Here ")
+        return stream_id
+
+
 def main():
     # Connect to the database using SQLAlchemy
     db = os.path.join(file_path, "stream_data.db")
-    engine = create_engine(f"sqlite:///{db}", echo=True)
+    engine = create_engine(f"sqlite:///{db}")
     # connection = engine.connect()
     Base.metadata.create_all(engine, checkfirst=True)
     metadata = MetaData()
@@ -76,8 +93,6 @@ def main():
     """session.add(Stream(stream_id=21, user_name="zoo", viewer_count=3400, user_id=12, game_name="Apex Legends",
                        title="Test", started_at=dt.datetime.now()))"""
 
-
-
     return session
 
 
@@ -85,3 +100,4 @@ main()
 
 add_stream(main(), stream_id=5, user_name="zoo", viewer_count=2400, user_id=12, game_name="Fortnite",
            title="Test", started_at=dt.datetime.now())
+#  add_message(main(), "Atx123", "Test", dt.datetime.now(), 25)
