@@ -51,21 +51,21 @@ if at_least_one_stream_active:
 
     def stream_notification(session, live_message):
         m1 = session.query(Message).filter(Message.stream_id == live_message[0][0]).one_or_none()
-        # print(m1)
+        print(m1)
         if m1 is None:
             print(live_message[0][0])
             print(live_message)
             try:
 
-                at_response = sms.send([live_message[0][0]], [mobile_number])
+                at_response = sms.send([live_message][0][0], [mobile_number])
                 print(at_response)
-
+                message_id = ""
                 for res in at_response['SMSMessageData']['Recipients']:
                     print(res['messageId'])
+                    message_id = res['messageId']
                     for m in live_message:
                         m1 = ''.join(map(str, m))
-                    add_message(session, str(res['messageId']),
-                                m1, datetime.now(), s['id'])
+                        add_message(session, str(message_id), m1, datetime.now(), m[0])
             except Exception as e:
                 print(f"Houston we have a problem: {e}")
         else:

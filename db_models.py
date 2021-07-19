@@ -61,13 +61,13 @@ def add_stream(session, stream_id, user_name, viewer_count, user_id, game_name, 
 
 def add_message(session, message_id, message, time_created, stream_id):
     # Check if a message exists
-    stream = session.query(Message).filter(Stream.stream_id == stream_id).one_or_none()
+    message_check = session.query(Message).filter(Message.stream_id == stream_id).one_or_none()
     s = session.query(Message).all()
-    if stream is not None:
-        return "Stream exists"
+    if message_check is not None:
+        return "Message already exists"
 
     # create a new stream if it doesn't exist
-    if stream is None:
+    if message_check is None:
         live_message = Message(message_id=message_id, message=message, time_created=time_created, stream_id=stream_id)
         try:
             session.add(live_message)
