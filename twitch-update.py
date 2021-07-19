@@ -12,6 +12,7 @@ print(client_id)
 access_token = os.getenv('access_token')
 at_username = os.getenv('at_username')
 at_api_key = os.getenv('at_api_key')
+mobile_number = os.getenv('mobile_number')
 at.initialize(at_username, at_api_key)
 sms = at.SMS
 app = at.Application
@@ -33,31 +34,38 @@ streams_active = filter(is_active, streams)
 at_least_one_stream_active = any(streams_active)
 print(at_least_one_stream_active)
 if at_least_one_stream_active:
-    stream_id = []
-    viewer_count = []
-    user_name = []
-    start = []
-    title = []
+    # stream_id = []
+    # viewer_count = []
+    # user_name = []
+    # start = []
+    # title = []
+    message = []
     live_n = False
     for s in streams:
         print(s['id'])
-        stream_id.append(s['id'])
-        viewer_count.extend([s['user_name'], s['viewer_count'], s['started_at'], s['game_name']])
-        user_name.append(s['user_name'])
-        title.append(s['game_name'])
+        # stream_id.append(s['id'])
+        # user_name.append(s['user_name'])
+        # title.append(s['game_name'])
         converted_time = datetime.strptime(s['started_at'], "%Y-%m-%dT%H:%M:%SZ")
+        message.append([s['id'], s['user_name'], s['title'], s['viewer_count'], converted_time, s['game_name']])
 
         add_stream(main(), s['id'], s['user_name'], s['viewer_count'], s['user_id'],
-                   s['game_name'], s['title'], converted_time, )
+                   s['game_name'], s['title'], converted_time)
+
+    def stream_notification(live_message):
+        print(message)
+        try:
+            at_response = sms.send(live_message, [mobile_number])
+            text = Message(at_response.id, live_message, )
+        except Exception as e:
+            print(f"Houston we have a problem: {e}")
+        # print(check_stream(main(), s['id']))
+        print("")
 
 
-        def stream_notification():
-            print(check_stream(main(), s['id']))
+    stream_notification()
 
-
-        stream_notification()
-
-""" print(viewer_count)
+""" print(viewer_count) 
     print(stream_id)
     print(user_name)
     print(title)"""
@@ -65,8 +73,6 @@ if at_least_one_stream_active:
 
 def stream_query(session):
     s1 = session.query(Stream).all()
-    for x in s1:
-        print(x.stream_id, x.user_name)
 
 
 stream_query(main())
