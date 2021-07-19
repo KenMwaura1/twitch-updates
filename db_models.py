@@ -32,7 +32,8 @@ class Stream(Base):
 
 class Message(Base):
     __tablename__ = "message"
-    message_id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    message_id = Column(String)
     message = Column(String)
     time_created = Column(DateTime)
     stream_id = Column(String)
@@ -59,12 +60,20 @@ def add_stream(session, stream_id, user_name, viewer_count, user_id, game_name, 
 
 
 def add_message(session, message_id, message, time_created, stream_id):
-    live_message = Message(message_id=message_id, message=message, time_created=time_created, stream_id=stream_id)
-    try:
-        session.add(live_message)
-    except Exception as e:
-        session.rollback()
-        print(f"Error as {e}")
+    # Check if a message exists
+    stream = session.query(Message).filter(Stream.stream_id == stream_id).one_or_none()
+    s = session.query(Message).all()
+    if stream is not None:
+        return "Stream exists"
+
+    # create a new stream if it doesn't exist
+    if stream is None:
+        live_message = Message(message_id=message_id, message=message, time_created=time_created, stream_id=stream_id)
+        try:
+            session.add(live_message)
+        except Exception as e:
+            session.rollback()
+            print(f"Error as {e}")
     session.commit()
 
 
@@ -86,9 +95,6 @@ def main():
     Session = sessionmaker()
     Session.configure(bind=engine)
     session = Session()
-    # print(session)
-
-    # session.add(Message(message_id="Atx", message="test"))
 
     """session.add(Stream(stream_id=21, user_name="zoo", viewer_count=3400, user_id=12, game_name="Apex Legends",
                        title="Test", started_at=dt.datetime.now()))"""
