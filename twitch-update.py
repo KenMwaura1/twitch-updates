@@ -52,18 +52,19 @@ if at_least_one_stream_active:
         add_stream(main(), s['id'], s['user_name'], s['viewer_count'], s['user_id'],
                    s['game_name'], s['title'], converted_time)
 
+
     def stream_notification(live_message):
+        m1 = session.query(Message).filter(Message.message == live_message[0][0]).one_or_none()
         print(message)
-        try:
+
+        """try:
             at_response = sms.send(live_message, [mobile_number])
-            text = Message(at_response.id, live_message, )
+            add_message(at_response.id, live_message, datetime.datetime.now(), s['id'])
         except Exception as e:
-            print(f"Houston we have a problem: {e}")
-        # print(check_stream(main(), s['id']))
-        print("")
+            print(f"Houston we have a problem: {e}")"""
 
 
-    stream_notification()
+    stream_notification(message)
 
 """ print(viewer_count) 
     print(stream_id)
