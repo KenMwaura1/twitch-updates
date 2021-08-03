@@ -104,6 +104,6 @@ def main():
 
 main()
 
-add_stream(main(), stream_id=5, user_name="zoo", viewer_count=2400, user_id=12, game_name="Fortnite",
-           title="Test", started_at=dt.datetime.now())
+# add_stream(main(), stream_id=5, user_name="zoo", viewer_count=2400, user_id=12, game_name="Fortnite",
+           # title="Test", started_at=dt.datetime.now())
 #  add_message(main(), "Atx123", "Test", dt.datetime.now(), 25)

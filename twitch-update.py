@@ -30,11 +30,6 @@ streams_active = filter(is_active, streams)
 at_least_one_stream_active = any(streams_active)
 print(at_least_one_stream_active)
 if at_least_one_stream_active:
-    # stream_id = []
-    # viewer_count = []
-    # user_name = []
-    # start = []
-    # title = []
     message = []
     live_n = False
     for s in streams:
@@ -57,7 +52,7 @@ if at_least_one_stream_active:
             print(live_message)
             try:
 
-                at_response = sms.send([live_message][0][0], [mobile_number])
+                at_response = sms.send([live_message], [mobile_number])
                 print(at_response)
                 message_id = ""
                 for res in at_response['SMSMessageData']['Recipients']:
