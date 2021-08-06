@@ -7,8 +7,8 @@ from datetime import datetime
 from db_models import main, add_stream, add_message, check_stream, Stream, Message
 
 load_dotenv()
-client_id = os.getenv('Client-ID')
-access_token = os.getenv('access_token')
+client_id = os.getenv('client_id')
+client_secret = os.getenv('client_secret')
 at_username = os.getenv('at_username')
 at_api_key = os.getenv('at_api_key')
 mobile_number = os.getenv('mobile_number')
@@ -19,7 +19,7 @@ print(app.fetch_application_data())
 
 endpoint = "https://api.twitch.tv/helix/streams?"
 headers = {"Client-ID": f"{client_id}",
-           "Authorization": f"Bearer {access_token}"}
+           "Authorization": f"Bearer {client_secret}"}
 params = {"user_login": ["Solary", "averagejonas", "shivfps", "shahzam"]}
 response = requests.get(endpoint, params=params, headers=headers)
 json_response = response.json()
