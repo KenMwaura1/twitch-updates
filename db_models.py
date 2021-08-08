@@ -1,9 +1,12 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime, create_engine, MetaData
+from sqlalchemy import BigInteger, Column, Integer, String, ForeignKey, Table, DateTime, create_engine, MetaData
 from sqlalchemy.orm import relationship, backref, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 import datetime as dt
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,7 +23,7 @@ Base = declarative_base()
 
 class Stream(Base):
     __tablename__ = "stream"
-    stream_id = Column(Integer, primary_key=True)
+    stream_id = Column(BigInteger, primary_key=True)
     user_name = Column(String)
     viewer_count = Column(Integer)
     user_id = Column(Integer)
@@ -80,21 +83,24 @@ def add_message(session, message_id, message, time_created, stream_id):
 def check_stream(session, stream_id):
     stream = session.query(Stream).filter(Stream.stream_id == stream_id).one_or_none()
     if stream is None:
-        print(" Here ")
         return stream_id
 
 
 def main():
-    # Connect to the database using SQLAlchemy
-    db = os.path.join(file_path, "stream_data.db")
-    engine = create_engine(f"sqlite:///{db}")
-    # connection = engine.connect()
+    # Connect to the postgres database using SQLAlchemy
+    # db = os.path.join(file_path, "stream_data.db")
+    # engine = create_engine(f"sqlite:///{db}")
+    postgres_username = os.getenv("postgres_username")
+    postgres_password = os.getenv("postgres_password")
+    postgres_db = os.getenv("postgres_db")
+    postgres_host = os.getenv("postgres_host")
+    engine = create_engine(f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
     Base.metadata.create_all(engine, checkfirst=True)
     metadata = MetaData()
-    # print(connection)
     Session = sessionmaker()
     Session.configure(bind=engine)
     session = Session()
+    # print(session)
 
     """session.add(Stream(stream_id=21, user_name="zoo", viewer_count=3400, user_id=12, game_name="Apex Legends",
                        title="Test", started_at=dt.datetime.now()))"""
@@ -104,6 +110,3 @@ def main():
 
 main()
 
-# add_stream(main(), stream_id=5, user_name="zoo", viewer_count=2400, user_id=12, game_name="Fortnite",
-           # title="Test", started_at=dt.datetime.now())
-#  add_message(main(), "Atx123", "Test", dt.datetime.now(), 25)
