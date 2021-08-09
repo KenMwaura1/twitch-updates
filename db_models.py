@@ -94,7 +94,8 @@ def main():
     postgres_password = os.getenv("postgres_password")
     postgres_db = os.getenv("postgres_db")
     postgres_host = os.getenv("postgres_host")
-    engine = create_engine(f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
+    engine = create_engine(
+        f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
     Base.metadata.create_all(engine, checkfirst=True)
     metadata = MetaData()
     Session = sessionmaker()
@@ -102,11 +103,7 @@ def main():
     session = Session()
     # print(session)
 
-    """session.add(Stream(stream_id=21, user_name="zoo", viewer_count=3400, user_id=12, game_name="Apex Legends",
-                       title="Test", started_at=dt.datetime.now()))"""
-
     return session
 
 
 main()
-

@@ -33,10 +33,6 @@ if at_least_one_stream_active:
     message = []
     live_n = False
     for s in streams:
-        # print(s['id'])
-        # stream_id.append(s['id'])
-        # user_name.append(s['user_name'])
-        # title.append(s['game_name'])
         converted_time = datetime.strptime(s['started_at'], "%Y-%m-%dT%H:%M:%SZ")
         message.append([s['id'], s['user_name'], s['title'], s['viewer_count'], converted_time, s['game_name']])
 
