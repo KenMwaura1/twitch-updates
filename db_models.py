@@ -1,5 +1,5 @@
-from sqlalchemy import BigInteger, Column, Integer, String, ForeignKey, Table, DateTime, create_engine, MetaData
-from sqlalchemy.orm import relationship, backref, sessionmaker
+from sqlalchemy import BigInteger, Column, Integer, String, Table, DateTime, create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 import datetime as dt
@@ -11,14 +11,6 @@ load_dotenv()
 file_path = os.path.dirname(os.path.abspath(__file__))
 
 Base = declarative_base()
-
-"""stream_message = Table(
-    "stream_message",
-    Base.metadata,
-    Column("stream_id", Integer, ForeignKey("Stream.stream_id")),
-    Column("message_id", String, ForeignKey("Message.message_id"))
-)
-"""
 
 
 class Stream(Base):
@@ -69,7 +61,7 @@ def add_message(session, message_id, message, time_created, stream_id):
     if message_check is not None:
         return "Message already exists"
 
-    # create a new stream if it doesn't exist
+    # create a new message if it doesn't exist
     if message_check is None:
         live_message = Message(message_id=message_id, message=message, time_created=time_created, stream_id=stream_id)
         try:
@@ -97,11 +89,9 @@ def main():
     engine = create_engine(
         f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
     Base.metadata.create_all(engine, checkfirst=True)
-    metadata = MetaData()
     Session = sessionmaker()
     Session.configure(bind=engine)
     session = Session()
-    # print(session)
 
     return session
 
