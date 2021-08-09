@@ -4,7 +4,7 @@ import africastalking as at
 from dotenv import load_dotenv
 from datetime import datetime
 
-from db_models import main, add_stream, add_message, check_stream, Stream, Message
+from db_models import main, add_stream, add_message, Stream, Message
 
 load_dotenv()
 client_id = os.getenv('client_id')
@@ -68,6 +68,7 @@ if at_least_one_stream_active:
 
 def stream_query(session):
     s1 = session.query(Stream).all()
+    print(s1)
 
 
 stream_query(main())

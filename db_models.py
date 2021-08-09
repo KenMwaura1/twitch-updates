@@ -72,12 +72,6 @@ def add_message(session, message_id, message, time_created, stream_id):
     session.commit()
 
 
-def check_stream(session, stream_id):
-    stream = session.query(Stream).filter(Stream.stream_id == stream_id).one_or_none()
-    if stream is None:
-        return stream_id
-
-
 def main():
     # Connect to the postgres database using SQLAlchemy
     # db = os.path.join(file_path, "stream_data.db")
@@ -89,8 +83,7 @@ def main():
     engine = create_engine(
         f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
     Base.metadata.create_all(engine, checkfirst=True)
-    Session = sessionmaker()
-    Session.configure(bind=engine)
+    Session = sessionmaker(engine)
     session = Session()
 
     return session
