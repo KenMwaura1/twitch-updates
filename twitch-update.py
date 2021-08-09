@@ -39,10 +39,8 @@ if at_least_one_stream_active:
         add_stream(main(), s['id'], s['user_name'], s['viewer_count'], s['user_id'],
                    s['game_name'], s['title'], converted_time)
 
-
     def stream_notification(session, live_message):
         m1 = session.query(Message).filter(Message.stream_id == live_message[0][0]).one_or_none()
-        print(m1)
         if m1 is None:
             print(live_message[0][0])
             print(live_message)
@@ -60,15 +58,9 @@ if at_least_one_stream_active:
             except Exception as e:
                 print(f"Houston we have a problem: {e}")
         else:
-            print(f"Message sent")
+            print(f"Message already sent")
 
 
     stream_notification(main(), message)
 
 
-def stream_query(session):
-    s1 = session.query(Stream).all()
-    print(s1)
-
-
-stream_query(main())
