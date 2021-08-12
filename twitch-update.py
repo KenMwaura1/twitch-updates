@@ -31,12 +31,12 @@ at_least_one_stream_active = any(streams_active)
 print(at_least_one_stream_active)
 if at_least_one_stream_active:
     message = []
-    for s in streams:
-        converted_time = datetime.strptime(s['started_at'], "%Y-%m-%dT%H:%M:%SZ")
-        message.append([s['id'], s['user_name'], s['title'], s['viewer_count'], converted_time, s['game_name']])
+    for stream in streams:
+        converted_time = datetime.strptime(stream['started_at'], "%Y-%m-%dT%H:%M:%SZ")
+        message.append([stream['id'], stream['user_name'], stream['title'], stream['viewer_count'], converted_time, stream['game_name']])
 
-        add_stream(main(), s['id'], s['user_name'], s['viewer_count'], s['user_id'],
-                   s['game_name'], s['title'], converted_time)
+        add_stream(main(), stream['id'], stream['user_name'], stream['viewer_count'], stream['user_id'],
+                   stream['game_name'], stream['title'], converted_time)
 
     def stream_notification(session, live_message):
         m1 = session.query(Message).filter(Message.stream_id == live_message[0][0]).one_or_none()
