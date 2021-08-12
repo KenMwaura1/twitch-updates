@@ -75,10 +75,10 @@ def main():
     # Connect to the postgres database using SQLAlchemy
     # db = os.path.join(file_path, "stream_data.db")
     # engine = create_engine(f"sqlite:///{db}")
-    postgres_username = os.getenv("postgres_username")
-    postgres_password = os.getenv("postgres_password")
-    postgres_db = os.getenv("postgres_db")
-    postgres_host = os.getenv("postgres_host")
+    postgres_username = os.environ.get("postgres_username")
+    postgres_password = os.environ.get("postgres_password")
+    postgres_db = os.environ.get("postgres_db")
+    postgres_host = os.environ.get("postgres_host")
     engine = create_engine(
         f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
     Base.metadata.create_all(engine, checkfirst=True)

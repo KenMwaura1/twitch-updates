@@ -7,11 +7,11 @@ from datetime import datetime
 from db_models import main, add_stream, add_message, Stream, Message
 
 load_dotenv()
-client_id = os.getenv('client_id')
-client_secret = os.getenv('client_secret')
-at_username = os.getenv('at_username')
-at_api_key = os.getenv('at_api_key')
-mobile_number = os.getenv('mobile_number')
+client_id = os.environ.get('client_id')
+client_secret = os.environ.get('client_secret')
+at_username = os.environ.get('at_username')
+at_api_key = os.environ.get('at_api_key')
+mobile_number = os.environ.get('mobile_number')
 at.initialize(at_username, at_api_key)
 sms = at.SMS
 app = at.Application
