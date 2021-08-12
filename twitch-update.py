@@ -31,7 +31,6 @@ at_least_one_stream_active = any(streams_active)
 print(at_least_one_stream_active)
 if at_least_one_stream_active:
     message = []
-    live_n = False
     for s in streams:
         converted_time = datetime.strptime(s['started_at'], "%Y-%m-%dT%H:%M:%SZ")
         message.append([s['id'], s['user_name'], s['title'], s['viewer_count'], converted_time, s['game_name']])
@@ -45,7 +44,6 @@ if at_least_one_stream_active:
             print(live_message[0][0])
             print(live_message)
             try:
-
                 at_response = sms.send([live_message], [mobile_number])
                 print(at_response)
                 message_id = ""
