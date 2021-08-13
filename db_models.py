@@ -77,8 +77,9 @@ def main():
     postgres_password = os.environ.get("postgres_password")
     postgres_db = os.environ.get("postgres_db")
     postgres_host = os.environ.get("postgres_host")
+    DATABASE_URL = os.environ.get("DATABASE_URL")
     engine = create_engine(
-        f'postgresql+psycopg2://{postgres_username}:{postgres_password}@{postgres_host}/{postgres_db}')
+        f'postgresql+psycopg2://{DATABASE_URL}')
     Base.metadata.create_all(engine, checkfirst=True)
     Session = sessionmaker(engine)
     session = Session()
