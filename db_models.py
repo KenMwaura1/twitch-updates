@@ -73,8 +73,6 @@ def add_message(session, message_id, message, time_created, stream_id):
 
 def main():
     # Connect to the postgres database using SQLAlchemy
-    # db = os.path.join(file_path, "stream_data.db")
-    # engine = create_engine(f"sqlite:///{db}")
     postgres_username = os.environ.get("postgres_username")
     postgres_password = os.environ.get("postgres_password")
     postgres_db = os.environ.get("postgres_db")
